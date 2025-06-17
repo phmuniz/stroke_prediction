@@ -1,12 +1,11 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import GridSearchCV
 
 data_sp = pd.read_csv('healthcare-dataset-stroke-data.csv')
 data_sp = data_sp.dropna()
@@ -28,16 +27,16 @@ print(f"Size X_train: {len(X_train)}")
 print(f"Size X_test: {len(X_test)}")
 
 # pipeline
-knn_pipeline = Pipeline(steps=[
+l_regression_pipeline = Pipeline(steps=[
   ("normalize", MinMaxScaler()),  
-  ("KNN", KNeighborsClassifier(n_neighbors=3))
+  ("l_regression", LogisticRegression(class_weight='balanced'))
 ])
 
-knn_pipeline.fit(X_train, y_train)
+l_regression_pipeline.fit(X_train, y_train)
 
-y_pred = knn_pipeline.predict(X_test)
-y_pred_prob = knn_pipeline.predict_proba(X_test)
-print(f"Acurácia de treinamento: {knn_pipeline.score(X_train, y_train)}")
+y_pred = l_regression_pipeline.predict(X_test)
+y_pred_prob = l_regression_pipeline.predict_proba(X_test)
+print(f"Acurácia de treinamento: {l_regression_pipeline.score(X_train, y_train)}")
 
 #report
 classes_name = ['no stroke', 'stroke']

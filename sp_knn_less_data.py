@@ -6,17 +6,16 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import GridSearchCV
 
 data_sp = pd.read_csv('healthcare-dataset-stroke-data.csv')
 data_sp = data_sp.dropna()
 y = data_sp['stroke']
 
 # cleaning data
-X = data_sp.drop(columns=['id', 'stroke'])
+X = data_sp.drop(columns=['id', 'stroke', 'ever_married',"work_type","Residence_type"])
 
 lb = LabelEncoder()
-categories_list = ["gender","ever_married","work_type","Residence_type","smoking_status"]
+categories_list = ["gender","smoking_status"]
 
 for category in categories_list:
     X[category] = lb.fit_transform(X[category].astype(str))
